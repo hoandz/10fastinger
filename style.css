@@ -1,0 +1,59 @@
+.wrap {
+    width: 600px;
+    margin: 50px auto;
+    font-size: 60px;
+    line-height: 1.3em;
+    text-align: center;
+    color: red;
+  }
+
+#reset-btn{
+  width: 60px;
+  height: 30px;
+  background: black;
+  margin: 0 auto;
+  color: white;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#wrap{
+  margin: 100px 0px;
+}
+.sdf{
+  border-radius: 10px;
+  padding: 10px;
+}
+.mauxam{
+  background: #80808026;
+}
+.maudo{
+  color: red;
+}
+#input-text{
+  width: 600px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 20px;
+  padding-left: 15px;
+}
+#input-text:focus{
+  outline: none;
+} 
+.thongke{
+  width: 200px;
+  height:120px;
+  border: 1px solid red;
+  display: none;
+}
+.active{
+  display: inline-block;
+}
+
+
+
+
+
+
