@@ -1,4 +1,4 @@
-var countDownDuration = 7;
+var countDownDuration = 2;
 //so sanh text
 function isCorrect(inputWord, typeWord){
   console.log("test isCorrect", inputWord, typeWord);
@@ -18,7 +18,7 @@ $(document).ready(function(){
   'text','of','the','toàn','and','lái','thsettinge','the','viết'];
 
   for(var i = 0; i < inputWords.length; i++){
-    $("#wrap").append(`<span id="elm`+i+`" class="sdf">`+ inputWords[i] +`</span>`);
+    $("#text-data").append(`<span id="elm`+i+`" class="sdf">`+ inputWords[i] +`</span>`);
   }
   $("#elm"+0).addClass("mauxam");
   var wordIndex = 0;
@@ -43,7 +43,7 @@ $(document).ready(function(){
         $("#accuracy").html(accuracyP.toFixed(2));
         $("#correctWords").html(typeRight);
         $("#wrongWords").html(misTyped);
-        $(".thongke").addClass("active");
+        $(".result").addClass("active");
       }
     }, 1000);
   }

@@ -1,27 +1,54 @@
 <html>
-  <head>
-    <title>hiihih</title>
+  <header>
+    <title>10 Fastinger</title>
+    <meta charset="utf-8"></meta>
     <link rel="stylesheet" href="style.css">
-    <meta charset="utf-8">
+    <link rel="stylesheet" href="domdom.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  </head>
+  </header>
   <body>
-    <div id="wrap">
-      
+    <div class="container">
+      <div class="universe">
+        <div class="trajectory">
+          <div class="sun">
+            <img src="img/hocngay.png" alt="">
+          </div>
+          <div class="planet-1"></div>
+          <div class="planet-2">
+            <img src="img/tailieu.png" alt="" class="panet-green">
+            <img src="img/taitro.png" alt="" class="panet-purple">
+            <img src="img/kter.png" alt="" class="panet-orange">
+          </div>
+          <div class="planet-3">
+            <img src="img/phanhoi.png" alt="" class="panet-phanhoi">
+            <img src="img/hoidap.png" alt="" class="panet-hoidap">
+          </div>
+        </div>
+      </div>
+      <div class="logic-form">
+        <div class="text-data" id="text-data"></div>
+        <div class="input-check-form">
+          <div class="container-input-check-form">
+            <input type="text" id="input-text" class="input-row" value="">
+            <div class="timer">
+              <div class="container-timer" id="timer">1:00</div>
+            </div>
+            <div class="reset-time">
+              <img src="img/reset.png" alt="" class="reset" id="reset-btn">
+            </div>
+          </div>
+        </div>
+        <div class="result">
+          <div class="wpm"><span id="wpm">9</span> WPM</div>
+          <div class="accuracy">Accuracy: <span id="accuracy">66</span>%</div>
+          <div class="correctWords">Correct Words: <span id="correctWords">6</span></div>
+          <div class="wrongWords">Wrong Words: <span id="wrongWords">3</span></div>
+        </div>
+      </div>
+      <div id="particles">
+      </div>
     </div>
-    <input id="input-text" type="text" value="">
-    <div class="thongke">
-      <div class="wpm"><span id="wpm">9</span> WPM</div>
-      <div class="accuracy">Accuracy: <span id="accuracy">66</span>%</div>
-      <div class="correctWords">Correct Words: <span id="correctWords">6</span></div>
-      <div class="wrongWords">Wrong Words: <span id="wrongWords">3</span></div>
-    </div>
-    <div class="wrap">
-      <p id="timer"></p>
-    </div>
-    
-    <div id="reset-btn">Reset</div>
-    
-    <script src="script.js"></script>
+  <script src="script.js"></script>
+  <script src="domdom.js"></script>
   </body>
 </html>
