@@ -1,14 +1,27 @@
-var countDownDuration = 6;
-
+var countDownDuration = 7;
+//so sanh text
+function isCorrect(inputWord, typeWord){
+  console.log("test isCorrect", inputWord, typeWord);
+    return inputWord.slice(0,typeWord.length) === typeWord;
+}
+//end so sanh text
+function highLight(wordIndex, isCorrect){
+  console.log("da goi", isCorrect);
+  if(!isCorrect){
+    $('#elm' + wordIndex).addClass('backgroundred');
+  }else{
+    $('#elm' + wordIndex).removeClass('backgroundred');
+  }
+}
 $(document).ready(function(){
-  var str = ['ghê','lorem','ipsum','is','lắm','dummy',
-  'text','of','the','toàn','and','lái','thsettinge','the','industry','viết'];
+  var inputWords = ['ghê','lorem','ipsum','is','lắm','dummy',
+  'text','of','the','toàn','and','lái','thsettinge','the','viết'];
 
-  for(var i = 0; i < str.length; i++){
-    $("#wrap").append(`<span id="elm`+i+`" class="sdf">`+ str[i] +`</span>`);
+  for(var i = 0; i < inputWords.length; i++){
+    $("#wrap").append(`<span id="elm`+i+`" class="sdf">`+ inputWords[i] +`</span>`);
   }
   $("#elm"+0).addClass("mauxam");
-  var number = 0;
+  var wordIndex = 0;
   var timer = $("#timer");
   var count = countDownDuration;
   timer.html(count);
@@ -49,43 +62,47 @@ $(document).ready(function(){
     timer.html(count);
     isCountDown = false;
     $("#input-text").val("");
-    number = 0;
+    wordIndex = 0;
     $(".sdf").removeClass("maudo");
     $(".sdf").removeClass("mauxam");
-    $("#elm"+number).addClass("mauxam");
+    $("#elm"+wordIndex).addClass("mauxam");
     typeRight = 0;
     misTyped = 0;
     $("#input-text").prop('disabled', false);
+    $('.sdf').removeClass('backgroundred');
   });
 
   // xử lý so sánh text
   //get value input
-   $('#input-text').bind('keypress', function(e) {
+   $('#input-text').on('input', function(e) {
+
+    var typeWord = $("#input-text").val();
+    var isPressSpace = typeWord.indexOf(' ') >= 0;
+    var typeWord = typeWord.trim();
+    console.log('day la typeWord: ', typeWord);
+    var inputWord = inputWords[wordIndex];
+    console.log('hih');
+    var isTypingCorrect = isCorrect(inputWord, typeWord);
+    highLight(wordIndex, isTypingCorrect);
     //space bar 
-    if(e.which == 32){
+    console.log('bam phim', e.keyCode);
+    if(isPressSpace){
       $(".sdf").removeClass("mauxam");
-      var number2 = number + 1;
-      $("#elm"+number2).addClass("mauxam");
-      var newText = $("#input-text").val();
-      console.log(str[number]);
+      $("#elm" + (wordIndex + 1)).addClass("mauxam");
       $("#input-text").val("");
-      var newArray = newText.trim();
-      console.log(newArray);
-      if(newArray === str[number]){
-        console.log("dung roi");
-        number ++;
+      if(typeWord === inputWord){
+        // check dung
+        wordIndex ++;
         typeRight ++;
       }else{
-        console.log("sai roi");
-        $("#elm"+number).addClass("maudo");
-        number ++;
+        //check sai
+        $("#elm"+wordIndex).addClass("maudo");
+        $('#elm' + wordIndex).removeClass('backgroundred');
+        wordIndex ++;
         misTyped ++;
       }
-      //so sanh text
-      //end so sanh text
     }
   });
-
   //end get value input
 });
 
