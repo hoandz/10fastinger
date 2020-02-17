@@ -14,10 +14,10 @@ function createParticle(i) {
   this.width = rand(1, 3) + 'px';
   this.height = this.width;
   this.x = rand(1, 100) + '%';
-  this.delay = rand(1, 5) + 's';
-  this.duration = rand(10, 30) + 's';
+  // this.delay = 0 + 's';
+  // this.duration = rand(1, 60) + 's';
   this.bottom = rand(1, 100) + '%';
-  this.html = '<span class="domdom" style=" width: ' + this.width + '; height: ' + this.height + ';bottom: ' + this.bottom + '; left: ' + this.x + '; animation-delay: ' + this.duration + '; animation-duration: ' + this.duration + '; "></span>';
+  this.html = '<span class="domdom" style=" width: ' + this.width + '; height: ' + this.height + ';bottom: ' + this.bottom + '; left: ' + this.x + '; "></span>';
 }
 
 // Let's loop through till we reach the max number of particles and save them to the array and append them to the document

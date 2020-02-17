@@ -1,0 +1,139 @@
+<html>
+  <header>
+    <title>10 Fastinger</title>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="domdom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </header>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        </a>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">
+            Home
+          </a>
+
+          <a class="navbar-item">
+            Documentation
+          </a>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-light" id="login-fb-btn">
+                Log in
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="universe">
+        <div class="trajectory">
+          <div class="sun">
+            <img src="img/hocngay.png" alt="">
+          </div>
+          <div class="planet-1"></div>
+          <div class="planet-2">
+            <img src="img/tailieu.png" alt="" class="panet-green">
+            <img src="img/taitro.png" alt="" class="panet-purple">
+            <img src="img/kter.png" alt="" class="panet-orange">
+          </div>
+          <div class="planet-3">
+            <img src="img/phanhoi.png" alt="" class="panet-phanhoi">
+            <img src="img/hoidap.png" alt="" class="panet-hoidap">
+          </div>
+        </div>
+      </div>
+      <div class="logic-form">
+        <div class="text-data" id="text-data"></div>
+        <div class="input-check-form">
+          <div class="container-input-check-form">
+            <input type="text" id="input-text" class="input-row" value="">
+            <div class="timer">
+              <div class="container-timer" id="timer">1:00</div>
+            </div>
+            <div class="reset-time">
+              <img src="img/reset.png" alt="" class="reset" id="reset-btn">
+            </div>
+          </div>
+        </div>
+        <div class="result">
+          <div class="wpm"><span id="wpm">9</span> WPM</div>
+          <div class="accuracy">Accuracy: <span id="accuracy">66</span>%</div>
+          <div class="correctWords">Correct Words: <span id="correctWords">6</span></div>
+          <div class="wrongWords">Wrong Words: <span id="wrongWords">3</span></div>
+        </div>
+      </div>
+      <div id="particles">
+      </div>
+    </div>
+  <script src="domdom.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
+  
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyC1sdeokehKf3rVnW6fsdjbx3jU2qpOWEQ",
+      authDomain: "typing-faster.firebaseapp.com",
+      databaseURL: "https://typing-faster.firebaseio.com",
+      projectId: "typing-faster",
+      storageBucket: "typing-faster.appspot.com",
+      messagingSenderId: "196680192033",
+      appId: "1:196680192033:web:20392bcefaa4e242f31360",
+      measurementId: "G-RP9768H8VM"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '188272749119547',
+        cookie     : true,
+        xfbml      : true,
+        version    : '1.0'
+      });
+        
+      FB.AppEvents.logPageView();   
+        
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <script src="script.js"></script>
+  </body>
+</html>

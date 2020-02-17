@@ -1,4 +1,4 @@
-var countDownDuration = 2;
+var countDownDuration = 6;
 //so sanh text
 function isCorrect(inputWord, typeWord){
   console.log("test isCorrect", inputWord, typeWord);
@@ -104,7 +104,39 @@ $(document).ready(function(){
     }
   });
   //end get value input
+
+  //xu ly login fb
+  firebase.auth().onAuthStateChanged(function(user) {
+    console.log("login user ", user);
+  });
+  
+  var provider = new firebase.auth.FacebookAuthProvider();
+
+  provider.addScope('user_birthday');
+
+  $("#login-fb-btn").on('click', function(){
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    var token = result.credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+    // ...
+    console.log(user);
+  }).catch(function(error) {
+    // Handle Errors here.
+    console.log("error ne: ", error);
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
+  });
+  //end xu ly login fb
 });
+
 
 
 
