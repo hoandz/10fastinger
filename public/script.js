@@ -15,7 +15,8 @@ function highLight(wordIndex, isCorrect){
 }
 $(document).ready(function(){
   var inputWords = ['ghê','lorem','ipsum','is','lắm','dummy',
-  'text','of','the','toàn','and','lái','thsettinge','the','viết'];
+  'text','of','the','toàn','and','lái','thsettinge','the','viết','is','lắm','dummy',
+  'text','of','the','toàn','and'];
 
   for(var i = 0; i < inputWords.length; i++){
     $("#text-data").append(`<span id="elm`+i+`" class="sdf">`+ inputWords[i] +`</span>`);
@@ -39,7 +40,7 @@ $(document).ready(function(){
         // tinh ty le phan tram
         var accuracyP = typeRight/(typeRight+misTyped)*100;
         // end tinh ty le phan tram
-        $("#wpm").html(misTyped + typeRight);
+        $("#wpm").html(typeRight);
         $("#accuracy").html(accuracyP.toFixed(2));
         $("#correctWords").html(typeRight);
         $("#wrongWords").html(misTyped);
@@ -55,7 +56,7 @@ $(document).ready(function(){
       isCountDown = true;
     }
   });
-
+  
   $("#reset-btn").click(function(){
     clearInterval(timerId);
     count = countDownDuration;
@@ -104,12 +105,6 @@ $(document).ready(function(){
     }
   });
   //end get value input
-
-  //xu ly login fb
-  firebase.auth().onAuthStateChanged(function(user) {
-    console.log("login user ", user);
-  });
-  
   var provider = new firebase.auth.FacebookAuthProvider();
 
   provider.addScope('user_birthday');
