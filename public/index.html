@@ -17,7 +17,7 @@
         <div class="tile is-8 is-parent">
           <div class="logic-form">
             <!-- typingpanel -->
-            <typing-panel :time-counter-max="60" @on-finish="onFinishTyping"></typing-panel>
+            <typing-panel :time-counter-max="20" @on-finish="onFinishTyping"></typing-panel>
             <!-- end typingpanel -->
 
             <!-- result -->
@@ -60,6 +60,7 @@
     // Get a reference to the database service
     var database = firebase.database();
     console.log("database: ", database);
+
   </script>
 
   <script>
@@ -97,9 +98,12 @@
           slow_counter: 600,
           resultData: {
             wpm: 100,
+            keystrokes: 23,
             accuracy: 22.33,
             wrongWords: 23,
-            corectWords: 22
+            corectWords: 22,
+            keystrokesWrong: 32,
+            countKeystrokes: 22
           },
           isShowResult: false
         }
@@ -107,13 +111,15 @@
       methods: {
         onFinishTyping(e){
           this.resultData = {
-            wpm: e.corectWords,
+            wpm: Math.ceil(e.keystrokes),
+            keystrokesCorrect: e.keystrokesCorrect,
             accuracy: e.accuracy.toFixed(2),
             wrongWords: e.wrongWords,
-            corectWords: e.corectWords
+            corectWords: e.corectWords,
+            keystrokesWrong: e.keystrokesWrong,
+            countKeystrokes: e.countKeystrokes
           }
           this.isShowResult = true
-
         }
       },
       components: {

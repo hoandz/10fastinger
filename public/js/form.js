@@ -2,7 +2,7 @@
 var typingPanel = Vue.component('typingPanel',{
   template: `
       <div class="typing-panel">
-        <div class="text-data" id="text-data" >
+        <div class="text-data" id="text-data" v-if="activeTextData">
           <div id="row1" style="top: 1px;">
             <span class="sdf" v-for="(inputWord, index) in inputWords" 
             :class="{ 'highlight-bg-red': inputWord.isCorrect == true, 'colorRed': inputWord.hasError == true, 'bg-gray': index == wordIndex }" >{{ inputWord.word }}</span>
@@ -10,7 +10,7 @@ var typingPanel = Vue.component('typingPanel',{
         </div>
         <div class="input-check-form">
           <div class="container-input-check-form">
-            <input type="text" class="input-row" v-model="message" @keyup='getValue()' :disabled="disabled">
+            <input type="text" class="input-row" v-model="message" :disabled="disabled">
             <div class="timer">
               <div class="container-timer">{{ timeCouter }}</div>
             </div>
@@ -33,12 +33,27 @@ var typingPanel = Vue.component('typingPanel',{
       isCountDown: false,
       correctWords: 0,
       errorWords: 0,
-      disabled: false
+      disabled: false,
+      keystrokesWrong: 0,
+      keystrokesCorrect: 0,
+      activeTextData: true,
+      countSpace: 0
     }
   },
   computed: {
     accuracy() {
       return this.correctWords / (this.correctWords + this.errorWords) * 100;
+    },
+    keystrokesWpm() {
+      return (this.keystrokesCorrect + this.countSpace) / 5;
+    },
+    countKeystrokes() {
+      return this.keystrokesCorrect + this.keystrokesWrong + this.countSpace;
+    }
+  },
+  watch: {
+    message(newVal, oldVal) {
+      this.getValue();
     }
   },
   methods: {
@@ -52,17 +67,33 @@ var typingPanel = Vue.component('typingPanel',{
         }
       });
     },
-    ranDomArr(){
-      console.log("inputWords: ", this.inputWords);
+    ranDomArr(arr){
       var i = 0;
-      while ( i <= this.inputWords.length) {
-          this.inputWords.push(this.inputWords.splice(this.inputWords.length * Math.random() | 0, 1)[0]);
-          console.log("gia tri i: ", this.inputWords);
+      while (i <= arr.length) {
+          arr.push(arr.splice(arr.length * Math.random() | 0, 1)[0]);
           i++;
       }
     },
+    checkTextEnd() {
+      var para = document.getElementsByTagName("p")[0];
+      var text = para.innerHTML;
+      var words = arr.split(' ');
+      para.innerHTML = words[0];
+      var height = para.offsetHeight;
+      var i = 0;
+      while (i <= words.length) {
+        words.push(words.splice(words.length * Math.random() | 0, 1)[0]);
+        i++;
+      }
+      for(var i = 1; i < words.length; i++){
+          para.innerHTML = para.innerHTML + ' ' + words[i];
+          if(para.offsetHeight > height){
+              height = para.offsetHeight;
+              console.log(words[i-1]);
+          }
+      }
+    },
     countDown() {
-      console.log("duoc goi countdown");
       var vm = this;
       this.timerId = setInterval(function(){ 
         vm.timeCouter--;
@@ -71,11 +102,14 @@ var typingPanel = Vue.component('typingPanel',{
           this.$emit("on-finish", {
             accuracy: this.accuracy,
             corectWords: this.correctWords,
-            wrongWords: this.errorWords
+            wrongWords: this.errorWords,
+            keystrokes: this.keystrokesWpm,
+            keystrokesCorrect: this.keystrokesCorrect + this.countSpace,
+            keystrokesWrong: this.keystrokesWrong,
+            countKeystrokes: this.countKeystrokes
           });
-          console.log("this.errorWords: ", this.errorWords);
-          console.log("this.correctWords: ", this.correctWords);
           this.disabled = true;
+          this.activeTextData = false;
         }
       }.bind(vm), 1000);
     },
@@ -92,40 +126,43 @@ var typingPanel = Vue.component('typingPanel',{
       this.disabled = false;
       this.correctWords = 0;
       this.errorWords = 0;
-      this.ranDomArr();
+      this.ranDomArr(this.inputWords);
+      this.keystrokesWrong = 0;
+      this.keystrokesCorrect = 0;
+      this.activeTextData = true;
+      this.countSpace = 0;
     },
     getValue(){
       var typeWord = this.message;
-
       var inputWord = this.inputWords[this.wordIndex];
-      var count = this.message.indexOf(' ') >= 0;
+      var hasSpace = this.message.indexOf(' ') >= 0;
       typeWord = typeWord.trim();
       if(typeWord != null){
         if(this.isCountDown == false){
           this.countDown();
           this.isCountDown = true;
-          console.log("da doi");
         }
       }
-      if(inputWord.word.slice(0,typeWord.length) === typeWord){
-        console.log("dung");
-        inputWord.isCorrect=false;
-      }else{
-        inputWord.isCorrect=true;
-        console.log("sai");
+
+      if(inputWord.word.slice(0,typeWord.length) === typeWord) {
+        inputWord.isCorrect = false;
+      } else {
+        inputWord.isCorrect = true;
       }
-      if(count){
+
+      if(hasSpace){
         this.message = '';
-        console.log(typeWord);
-        console.log(inputWord.word);
         if(typeWord === inputWord.word){
+          var length = new Blob([inputWord.word]).size;
+          this.keystrokesCorrect += length;
           this.wordIndex ++;
-          console.log("text dung");
           this.correctWords++;
+          this.countSpace++;
         }else{
+          var length = new Blob([inputWord.word]).size;
+          this.keystrokesWrong += length;
           this.wordIndex ++;
-          inputWord.isCorrect=false;
-          console.log("text sai");
+          inputWord.isCorrect = false;
           inputWord.hasError = true;
           this.errorWords++;
         }
@@ -136,7 +173,7 @@ var typingPanel = Vue.component('typingPanel',{
     this.timeCouter = this.timeCounterMax;
     // this.getValue();
     this.fakeWords();
-    this.ranDomArr();
+    this.ranDomArr(this.inputWords);
   }
 })
 

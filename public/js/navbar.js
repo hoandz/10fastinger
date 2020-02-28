@@ -19,7 +19,6 @@ var navbarComponent = Vue.component('navbar', {
           <a class="navbar-link">
             Language
           </a>
-
           <div class="navbar-dropdown">
             <a class="navbar-item">
               Vietnamese
@@ -36,7 +35,6 @@ var navbarComponent = Vue.component('navbar', {
           </div>
         </div>
       </div>
-
       <div class="navbar-end">
         <div v-show="isLogin" class="navbar-item has-dropdown is-hoverable">
           <figure class="image is-32x32">
@@ -51,7 +49,6 @@ var navbarComponent = Vue.component('navbar', {
             </a>
           </div>
         </div>
-
         <div v-show="!isLogin" class="navbar-item">
           <div class="buttons">
             <a class="button is-light" @click="onClickLoginFb">
@@ -75,8 +72,28 @@ var navbarComponent = Vue.component('navbar', {
       isLogin: false
     }
   },
-
   methods: {
+    writeNewPost(uid, username, picture, title, body) {
+      // A post entry.
+      var postData = {
+        author: username,
+        uid: uid,
+        body: body,
+        title: title,
+        starCount: 0,
+        authorPic: picture
+      };
+
+      // Get a key for a new Post.
+      var newPostKey = firebase.database().ref().child('posts').push().key;
+
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      var updates = {};
+      updates['/posts/' + newPostKey] = postData;
+      updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+      return firebase.database().ref().update(updates);
+    },
     onClickLogout() {
       var vm = this;
       firebase.auth().signOut().then(function() {
@@ -120,12 +137,12 @@ var navbarComponent = Vue.component('navbar', {
       });
     }
   },
-
   mounted() {
     var vm = this;
     //xu ly login fb
     firebase.auth().onAuthStateChanged(function(user) {
       if (user != null) {
+        vm.writeNewPost('sdf', 'hoans', 'ádf', 'sdfasdf', 'sdfsdfaa');
         vm.isLogin = true;
         vm.displayName = user.displayName;
         vm.avatar = user.photoURL;

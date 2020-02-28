@@ -5,6 +5,14 @@ var resultPanel = Vue.component('resultPanel',{
         <div class="wpm"><span id="wpm">{{ resultData.wpm }}</span> WPM</div>
         <div class="value-rls">
           <div class="value-left">
+            Keystrokes:
+          </div>
+          <div class="value-right">
+            <span id="accuracy"><span>{{ resultData.countKeystrokes }}</span> (<span style="color: green;">{{ resultData.keystrokesCorrect }}</span> | <span style="color: red;">{{ resultData.keystrokesWrong }}</span>)</span>
+          </div>
+        </div>
+        <div class="value-rls">
+          <div class="value-left">
             Accuracy:
           </div>
           <div class="value-right">

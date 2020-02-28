@@ -32,6 +32,9 @@ html, body {
   -moz-user-select: none;
        user-select: none; }
 
+.activeTextData {
+  display: none; }
+
 #row1 {
   position: relative;
   color: #111111;
@@ -103,19 +106,19 @@ html, body {
        box-sizing: border-box;
   position: relative;
   background-color: #3276b1;
-  border-color: #285e8e; }
+  border-color: #285e8e;
+  cursor: pointer; }
   .reset-time img {
     width: 28px;
     height: auto;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    cursor: pointer; }
+    transform: translateX(-50%) translateY(-50%); }
 
 .result {
   width: 280px;
-  height: 330px;
+  height: 340px;
   -moz-box-sizing: border-box;
        box-sizing: border-box;
   border-radius: 5px;
