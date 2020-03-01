@@ -1,11 +1,12 @@
+// <span class="sdf" v-for="(inputWord, index) in inputWords" 
+//             :class="{ 'highlight-bg-red': inputWord.isCorrect == true, 'colorRed': inputWord.hasError == true, 'bg-gray': index == wordIndex }" >{{ inputWord.word }}</span>
 
 var typingPanel = Vue.component('typingPanel',{
   template: `
       <div class="typing-panel">
-        <div class="text-data" id="text-data" v-if="activeTextData">
+        <div class="text-data" id="text-data" scroll="no" v-show="activeTextData">
           <div id="row1" style="top: 1px;">
-            <span class="sdf" v-for="(inputWord, index) in inputWords" 
-            :class="{ 'highlight-bg-red': inputWord.isCorrect == true, 'colorRed': inputWord.hasError == true, 'bg-gray': index == wordIndex }" >{{ inputWord.word }}</span>
+            
           </div>
         </div>
         <div class="input-check-form">
@@ -37,7 +38,9 @@ var typingPanel = Vue.component('typingPanel',{
       keystrokesWrong: 0,
       keystrokesCorrect: 0,
       activeTextData: true,
-      countSpace: 0
+      countSpace: 0,
+      endWordOfLineIndexes: [],
+      countEndWordOfLineIndexes: 0
     }
   },
   computed: {
@@ -70,28 +73,30 @@ var typingPanel = Vue.component('typingPanel',{
     ranDomArr(arr){
       var i = 0;
       while (i <= arr.length) {
-          arr.push(arr.splice(arr.length * Math.random() | 0, 1)[0]);
-          i++;
-      }
-    },
-    checkTextEnd() {
-      var para = document.getElementsByTagName("p")[0];
-      var text = para.innerHTML;
-      var words = arr.split(' ');
-      para.innerHTML = words[0];
-      var height = para.offsetHeight;
-      var i = 0;
-      while (i <= words.length) {
-        words.push(words.splice(words.length * Math.random() | 0, 1)[0]);
+        arr.push(arr.splice(arr.length * Math.random() | 0, 1)[0]);
         i++;
       }
-      for(var i = 1; i < words.length; i++){
-          para.innerHTML = para.innerHTML + ' ' + words[i];
-          if(para.offsetHeight > height){
-              height = para.offsetHeight;
-              console.log(words[i-1]);
-          }
+    },
+    testScroll() {
+      $("#text-data").animate({ scrollTop: "+=55px"}, 1, 'swing');
+    },
+    showTextData() {
+      var para = $("#row1");
+      var words = this.inputWords;
+      var height = para.outerHeight();
+      this.ranDomArr(words);
+      for(var i = 0; i < words.length; i++){
+        para.append(`<span id="child-data` + i +`" class="child-data">`+ words[i].word +`</span>`);
+        if(para.outerHeight() > height){
+            height = para.outerHeight();
+            this.endWordOfLineIndexes.push(i-1);
+        }
       }
+      if(this.endWordOfLineIndexes[0] === -1){
+        this.endWordOfLineIndexes.shift();
+      }
+      this.activeTextData = true;
+      $("#child-data0").addClass("bg-gray");
     },
     countDown() {
       var vm = this;
@@ -113,25 +118,6 @@ var typingPanel = Vue.component('typingPanel',{
         }
       }.bind(vm), 1000);
     },
-    resetBtn(){
-      clearInterval(this.timerId);
-      this.timeCouter = this.timeCounterMax;
-      this.wordIndex = 0;
-      for(var i = 0; i < this.inputWords.length; i++){
-        this.inputWords[i].hasError = false;
-        this.inputWords[i].isCorrect = false;
-      }
-      this.isCountDown = false;
-      this.message = '';
-      this.disabled = false;
-      this.correctWords = 0;
-      this.errorWords = 0;
-      this.ranDomArr(this.inputWords);
-      this.keystrokesWrong = 0;
-      this.keystrokesCorrect = 0;
-      this.activeTextData = true;
-      this.countSpace = 0;
-    },
     getValue(){
       var typeWord = this.message;
       var inputWord = this.inputWords[this.wordIndex];
@@ -146,12 +132,20 @@ var typingPanel = Vue.component('typingPanel',{
 
       if(inputWord.word.slice(0,typeWord.length) === typeWord) {
         inputWord.isCorrect = false;
+        $('#child-data' + this.wordIndex).removeClass('highlight-bg-red');
       } else {
         inputWord.isCorrect = true;
+        $('#child-data' + this.wordIndex).addClass('highlight-bg-red');
       }
-
+  
       if(hasSpace){
+        $(".child-data").removeClass("bg-gray");
+        $("#child-data" + (this.wordIndex + 1)).addClass("bg-gray");
         this.message = '';
+        if(this.endWordOfLineIndexes[this.countEndWordOfLineIndexes] === this.wordIndex){
+          this.testScroll();
+          this.countEndWordOfLineIndexes++;
+        }
         if(typeWord === inputWord.word){
           var length = new Blob([inputWord.word]).size;
           this.keystrokesCorrect += length;
@@ -161,19 +155,46 @@ var typingPanel = Vue.component('typingPanel',{
         }else{
           var length = new Blob([inputWord.word]).size;
           this.keystrokesWrong += length;
+          $("#child-data"+ this.wordIndex).addClass("colorRed");
+          $('#child-data' + this.wordIndex).removeClass('highlight-bg-red');
           this.wordIndex ++;
           inputWord.isCorrect = false;
           inputWord.hasError = true;
           this.errorWords++;
         }
       }
+    },
+    resetBtn(){
+      clearInterval(this.timerId);
+      $("#row1").html('');
+      this.showTextData();
+      this.timeCouter = this.timeCounterMax;
+      this.wordIndex = 0;
+      for(var i = 0; i < this.inputWords.length; i++){
+        this.inputWords[i].hasError = false;
+        this.inputWords[i].isCorrect = false;
+      }
+      this.isCountDown = false;
+      this.message = '';
+      this.disabled = false;
+      this.correctWords = 0;
+      this.errorWords = 0;
+      this.keystrokesWrong = 0;
+      this.keystrokesCorrect = 0;
+      this.activeTextData = true;
+      this.countSpace = 0;
+      $("#child-data0").addClass("bg-gray");
+      $("#text-data").animate({ scrollTop: "=0px"}, 1, 'swing');
+      this.countEndWordOfLineIndexes = 0;
     }
   },
   mounted(){
+    this.testScroll();
     this.timeCouter = this.timeCounterMax;
     // this.getValue();
     this.fakeWords();
     this.ranDomArr(this.inputWords);
+    this.showTextData();
   }
 })
 
