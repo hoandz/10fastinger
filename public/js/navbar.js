@@ -40,7 +40,7 @@ var navbarComponent = Vue.component('navbar', {
           <figure class="image is-32x32">
             <img class="is-rounded" :src="avatar">
           </figure>
-          <a class="navbar-link" href="https://bulma.io/documentation/overview/start/">
+          <a class="navbar-link" href="#">
             {{ displayName }}
           </a>
           <div class="navbar-dropdown is-boxed">
@@ -73,27 +73,6 @@ var navbarComponent = Vue.component('navbar', {
     }
   },
   methods: {
-    writeNewPost(uid, username, picture, title, body) {
-      // A post entry.
-      var postData = {
-        author: username,
-        uid: uid,
-        body: body,
-        title: title,
-        starCount: 0,
-        authorPic: picture
-      };
-
-      // Get a key for a new Post.
-      var newPostKey = firebase.database().ref().child('posts').push().key;
-
-      // Write the new post's data simultaneously in the posts list and the user's post list.
-      var updates = {};
-      updates['/posts/' + newPostKey] = postData;
-      updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-
-      return firebase.database().ref().update(updates);
-    },
     onClickLogout() {
       var vm = this;
       firebase.auth().signOut().then(function() {
@@ -142,7 +121,6 @@ var navbarComponent = Vue.component('navbar', {
     //xu ly login fb
     firebase.auth().onAuthStateChanged(function(user) {
       if (user != null) {
-        vm.writeNewPost('sdf', 'hoans', 'ádf', 'sdfasdf', 'sdfsdfaa');
         vm.isLogin = true;
         vm.displayName = user.displayName;
         vm.avatar = user.photoURL;

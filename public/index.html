@@ -6,24 +6,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </header>
   <body>
     <div id="app">
       <navbar></navbar>
       <div class="tile is-ancestor container-ancestor">
-        
-       
         <div class="tile is-8 is-parent">
           <div class="logic-form">
             <!-- typingpanel -->
-            <typing-panel :time-counter-max="20" @on-finish="onFinishTyping"></typing-panel>
+            <typing-panel :time-counter-max="5" @on-finish="onFinishTyping"></typing-panel>
             <!-- end typingpanel -->
 
             <!-- result -->
             <result-panel v-if="isShowResult" :result-data="resultData"></result-panel>
             <!-- end result -->
-            
           </div>
         </div>
        
@@ -31,12 +29,14 @@
           <!-- ranking -->
           <ranking-panel></ranking-panel>
           <!-- end ranking -->
+          <!-- user progress -->
+          <user-progress :progress="userProgress"></user-progress>
+          <!-- end user progress -->
         </div>
       </div>
     </div>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
-  
   <!-- TODO: Add SDKs for Firebase products that you want to use
        https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-analytics.js"></script>
@@ -89,6 +89,7 @@
   <script src="js/ranking.js"></script>
   <script src="js/script.js"></script>
   <script src="js/form.js"></script>
+  <script src="js/user_progress.js"></script>
   <script>
     var app = new Vue({
       el: '#app',
@@ -105,7 +106,8 @@
             keystrokesWrong: 32,
             countKeystrokes: 22
           },
-          isShowResult: false
+          isShowResult: false,
+          userProgress: {}
         }
       },
       methods: {
@@ -120,13 +122,40 @@
             countKeystrokes: e.countKeystrokes
           }
           this.isShowResult = true
+
+          // Submit score
+          var user = firebase.auth().currentUser;
+          if (user != null) {
+            this.submitUserProgress(user.uid, this.resultData);
+          }
+        },
+        submitUserProgress(userId, resultData) {
+          // Gui data len server theo duong dan ben duoi
+          var timeStamp = new Date().getTime();
+          var refId = '/users/' + userId + '/progress/' + timeStamp;
+          firebase.database().ref(refId).set(resultData);
         }
       },
       components: {
         'navbar': navbarComponent,
         'typing-panel': typingPanel,
         'result-panel': resultPanel,
-        'ranking-panel': rankingPanel
+        'ranking-panel': rankingPanel,
+        'user-progress': userProgress
+      },
+      mounted() {
+        var vm = this;
+        //xu ly login fb
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user != null) {
+            // Fetch user progress data
+            var userId = firebase.auth().currentUser.uid;
+            firebase.database().ref('/users/' + userId + "/progress/").on('value', function(snapshot) {
+              vm.userProgress = snapshot.val();
+            });
+          }
+          console.log("user", user);
+        });
       }
     })
   </script>
