@@ -3,21 +3,20 @@
 
 var typingPanel = Vue.component('typingPanel',{
   template: `
-      <div class="typing-panel">
-        <div class="text-data" id="text-data" scroll="no" v-show="activeTextData">
-          <div id="row1" style="top: 1px;">
-            
+      <div class="logic-form">
+        <div class="typing-panel">
+          <div class="text-data" id="text-data">
+            <div id="row1" style="top: 1px;"></div>
+
+            </div>
           </div>
+        <div class="timer">
+          {{ timeCouter }}
         </div>
-        <div class="input-check-form">
-          <div class="container-input-check-form">
-            <input type="text" class="input-row" v-model="message" :disabled="disabled">
-            <div class="timer">
-              <div class="container-timer">{{ timeCouter }}</div>
-            </div>
-            <div class="reset-time">
-              <img src="img/reset-icon.png" alt="" class="reset" id="reset-btn" v-on:click="resetBtn">
-            </div>
+        <div class="inputText">
+          <input type="text" class="input-row" v-model="message" :disabled="disabled">
+          <div class="reset">
+            <img src="img/reset-icon.png" alt="" class="reset" id="reset-btn" v-on:click="resetBtn"> 
           </div>
         </div>
       </div>
@@ -78,24 +77,27 @@ var typingPanel = Vue.component('typingPanel',{
       }
     },
     testScroll() {
-      $("#text-data").animate({ scrollTop: "+=55px"}, 1, 'swing');
+      $("#text-data").animate({ scrollTop: "+=55.38px"}, 1, 'swing');
     },
     showTextData() {
+      $("#row1").html('');
+      this.endWordOfLineIndexes = [];
       var para = $("#row1");
       var words = this.inputWords;
       var height = para.outerHeight();
+      console.log("height", height);
       this.ranDomArr(words);
       for(var i = 0; i < words.length; i++){
         para.append(`<span id="child-data` + i +`" class="child-data">`+ words[i].word +`</span>`);
         if(para.outerHeight() > height){
-            height = para.outerHeight();
-            this.endWordOfLineIndexes.push(i-1);
+          height = para.outerHeight();
+          this.endWordOfLineIndexes.push(i-1);
         }
       }
       if(this.endWordOfLineIndexes[0] === -1){
         this.endWordOfLineIndexes.shift();
       }
-      this.activeTextData = true;
+      console.log("this.endWordOfLineIndexes", this.endWordOfLineIndexes);
       $("#child-data0").addClass("bg-gray");
     },
     countDown() {
@@ -165,9 +167,14 @@ var typingPanel = Vue.component('typingPanel',{
       }
     },
     resetBtn(){
-      clearInterval(this.timerId);
       $("#row1").html('');
-      this.showTextData();
+      var vm = this;
+      clearInterval(this.timerId);
+      this.activeTextData = true;
+      Vue.nextTick(function () {
+        vm.showTextData();
+      });
+
       this.timeCouter = this.timeCounterMax;
       this.wordIndex = 0;
       for(var i = 0; i < this.inputWords.length; i++){
