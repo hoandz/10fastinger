@@ -1,22 +1,23 @@
+// <div class="ranking-table">
+//         <div class="competition">User Progress</div>
+//             <table class="table table-rank">
+//               <thead>
+//                 <tr>
+//                   <th>Date</th>
+//                   <th><abbr>WPM</abbr></th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 <tr v-for="progress in progressArray">
+//                   <th> {{ progress.timestamp | pretty_date }}</th>
+//                   <td> {{ progress.wpm }}</td>
+//                 </tr>
+//               </tbody>
+//             </table>
+//       </div>
 var userProgress = Vue.component('userProgress', {
   template: `
-      <div class="ranking-table">
-        <div class="competition">User Progress</div>
-            <table class="table table-rank">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th><abbr>WPM</abbr></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="progress in progressArray">
-                  <th> {{ progress.timestamp | pretty_date }}</th>
-                  <td> {{ progress.wpm }}</td>
-                </tr>
-              </tbody>
-            </table>
-      </div>
+      
   `,
   props: ['progress'],
   data() {

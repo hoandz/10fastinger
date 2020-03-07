@@ -7,106 +7,47 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://unpkg.com/vue-router"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
   </header>
   <body>
-    <!-- <div id="app">
+    <div id="app">
       <router-view></router-view>
       <navbar></navbar>
+      
       <div class="tile is-ancestor container-ancestor">
-        <div class="tile is-8 is-parent">
-          <div class="logic-form"> -->
-            <!-- typingpanel -->
-            <!-- <typing-panel :time-counter-max="60" @on-finish="onFinishTyping"></typing-panel> -->
-            <!-- end typingpanel -->
-
-            <!-- result -->
-            <!-- <result-panel v-if="isShowResult" :result-data="resultData"></result-panel> -->
-            <!-- end result -->
-          <!-- </div>
-        </div> -->
-       
-        <!-- <div class="tile is-4 is-vertical is-parent rank-fix"> -->
-          <!-- ranking -->
-          <!-- <ranking-panel></ranking-panel> -->
-          <!-- end ranking -->
-          <!-- user progress -->
-          <!-- <user-progress :progress="userProgress"></user-progress> -->
-          <!-- end user progress -->
-        <!-- </div>
-      </div>
-    </div> -->
-
-    <!-- container -->
-    <div id="app">
-      <div class="container">
-        <div class="container-left">
-          <div class="logo"> 
-            <img src="img/logo.png" alt="">
-          </div>
-          <!-- ranking -->
-          <ranking-panel></ranking-panel>
-          <!-- end ranking -->
+        <div class="tile is-2 is-parent">
+          <!-- left -->
         </div>
-        <div class="container-right">
-          <navbar></navbar>
-          <div class="main">
+        <div class="tile is-8 is-parent">
+          <div class="logic-form">
             <!-- typingpanel -->
             <typing-panel :time-counter-max="60" @on-finish="onFinishTyping"></typing-panel>
             <!-- end typingpanel -->
-            <div class="footer">
-              <!-- <div class="result">
-                <div class="text-result">Result</div>
-                <div class="wpm"><span id="wpm">55</span> WPM</div>
-                <div class="value-rls">
-                  <div class="value-left">
-                    Keystrokes:
-                  </div>
-                  <div class="value-right">
-                    <span id="accuracy"><span>22</span> (<span style="color: green;">22</span> | <span style="color: red;">44</span>)</span>
-                  </div>
-                </div>
-                <div class="value-rls">
-                  <div class="value-left">
-                    Accuracy:
-                  </div>
-                  <div class="value-right">
-                    <span id="accuracy">33.33</span>%
-                  </div>
-                </div>
-                <div class="value-rls">
-                  <div class="value-left">
-                    Correct Words:
-                  </div>
-                  <div class="value-right">
-                    <span id="correctWords">32</span>
-                  </div>
-                </div>
-                <div class="value-rls">
-                  <div class="value-left">
-                    Wrong Words:
-                  </div>
-                  <div class="value-right">
-                    <span id="wrongWords">43</span>
-                  </div>
-                </div>
-                <button class="button is-primary btn-icon-fb">
-                  <span class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                  </span>
-                  <span>Facebook</span>
-                </button>
-              </div> -->
+            <div class="box-rank">
               <!-- result -->
+              
               <result-panel v-if="isShowResult" :result-data="resultData"></result-panel>
               <!-- end result -->
-              <div class="qc"></div>
+              <!-- ranking -->
+              <ranking-panel></ranking-panel>
+              <!-- end ranking -->
             </div>
+            
           </div>
+        </div>
+       
+        <div class="tile is-2 is-vertical is-parent rank-fix">
+          <!-- right -->
+          <!-- user progress -->
+          <user-progress :progress="userProgress"></user-progress>
+          <!-- end user progress -->
         </div>
       </div>
     </div>
+
+    <!-- container -->
+    
     <!-- end container -->
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
@@ -203,7 +144,8 @@
             countKeystrokes: e.countKeystrokes
           }
           this.isShowResult = true
-
+          $('.rank-24h').removeClass("is-12");
+          $('.rank-24h').addClass("padding-rank-24h");
           // Submit score
           var user = firebase.auth().currentUser;
           if (user != null) {

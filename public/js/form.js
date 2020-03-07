@@ -3,20 +3,30 @@
 
 var typingPanel = Vue.component('typingPanel',{
   template: `
-      <div class="logic-form">
-        <div class="typing-panel">
-          <div class="text-data" id="text-data">
-            <div id="row1" style="top: 1px;"></div>
-
-            </div>
+      <div class="typing-panel">
+        <div class="selectLanguage" v-show="activeTextData">
+          <div class="select">
+            <select>
+              <option>Tiếng Việt</option>
+              <option>EngLish</option>
+            </select>
           </div>
-        <div class="timer">
-          {{ timeCouter }}
+          <span>Thay đổi ngôn ngữ gõ</span>
         </div>
-        <div class="inputText">
-          <input type="text" class="input-row" v-model="message" :disabled="disabled">
-          <div class="reset">
-            <img src="img/reset-icon.png" alt="" class="reset" id="reset-btn" v-on:click="resetBtn"> 
+        <div class="text-data" id="text-data" scroll="no" v-show="activeTextData">
+          <div id="row1" style="top: 1px;">
+            
+          </div>
+        </div>
+        <div class="input-check-form">
+          <div class="container-input-check-form">
+            <input type="text" class="input-row" v-model="message" :disabled="disabled">
+            <div class="timer">
+              <div class="container-timer">{{ timeCouter }}</div>
+            </div>
+            <div class="reset-time">
+              <img src="img/reset-icon.png" alt="" class="reset" id="reset-btn" v-on:click="resetBtn">
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +87,7 @@ var typingPanel = Vue.component('typingPanel',{
       }
     },
     testScroll() {
-      $("#text-data").animate({ scrollTop: "+=55.38px"}, 1, 'swing');
+      $("#text-data").animate({ scrollTop: "+=55px"}, 1, 'swing');
     },
     showTextData() {
       $("#row1").html('');
@@ -105,6 +115,7 @@ var typingPanel = Vue.component('typingPanel',{
       this.timerId = setInterval(function(){ 
         vm.timeCouter--;
         if(vm.timeCouter == 0){
+          this.message = '';
           clearInterval(vm.timerId);
           this.$emit("on-finish", {
             accuracy: this.accuracy,
