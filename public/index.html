@@ -30,7 +30,7 @@
               <result-panel v-if="isShowResult" :result-data="resultData"></result-panel>
               <!-- end result -->
               <!-- ranking -->
-              <ranking-panel></ranking-panel>
+              <ranking-panel :high-scores="high_scores"></ranking-panel>
               <!-- end ranking -->
             </div>
             
@@ -113,6 +113,7 @@
         router: router,
       data() {
         return {
+          high_scores: [],
           typing_timeout: 5,
           fast_counter: 60,
           slow_counter: 600,
@@ -149,19 +150,22 @@
             this.submitUserProgress(user.uid, this.resultData);
             this.submitUserHighScore(user.uid, {
               "wpm": this.resultData.wpm,
-              "createdAt": new Date().getTime()
+              "createdAt": moment().unix()
             });
           }
         },
         submitUserProgress(userId, resultData) {
           // Gui data len server theo duong dan ben duoi
-          var timeStamp = new Date().getTime();
+          var timeStamp = moment().unix();
           var refId = '/users/' + userId + '/progress/' + timeStamp;
           firebase.database().ref(refId).set(resultData);
         },
         submitUserHighScore(userId, highScoreData) {
           var ref = '/leaderboards/' + userId;
           this.getUserHighScore(userId, function(userHighScoreData) {
+            if (parseInt(highScoreData.wpm) <= 0) {
+              return;
+            }
             if (userHighScoreData == null || parseInt(userHighScoreData.wpm) <= parseInt(highScoreData.wpm)) {
               firebase.database().ref(ref).set(highScoreData);
             }
@@ -171,6 +175,25 @@
           var ref = '/leaderboards/' + userId;
           return firebase.database().ref(ref).once('value').then(function(snapshot) {
             callback(snapshot.val());
+          });
+        },
+        autoFetchTop7Days() {
+          var vm = this;
+          firebase.database().ref('/leaderboards/').on("value", function(snapshot) {
+            var highScoreRecords = snapshot.val();
+            console.log(highScoreRecords);
+            var highScoreRecordsArr = Object.keys(highScoreRecords).map(function(key) {
+              highScoreRecords[key].userId = key;
+              return highScoreRecords[key];
+            });
+
+            console.log(highScoreRecordsArr);
+            var timeStampFilter = moment().subtract(7,'d').unix();
+            vm.high_scores = highScoreRecordsArr.sort(function(a, b){
+              return b.wpm - a.wpm;
+            }).filter(function(record) {
+              return record.createdAt >= timeStampFilter;
+            });
           });
         }
       },
@@ -193,6 +216,8 @@
             });
           }
         });
+
+        vm.autoFetchTop7Days();
       }
     })
   </script>
