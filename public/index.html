@@ -22,7 +22,7 @@
         <div class="tile is-8 is-parent">
           <div class="logic-form">
             <!-- typingpanel -->
-            <typing-panel :time-counter-max="60" @on-finish="onFinishTyping"></typing-panel>
+            <typing-panel :time-counter-max="typing_timeout" @on-finish="onFinishTyping"></typing-panel>
             <!-- end typingpanel -->
             <div class="box-rank">
               <!-- result -->
@@ -71,10 +71,6 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
-    // Get a reference to the database service
-    var database = firebase.database();
-    console.log("database: ", database);
-
   </script>
 
   <script>
@@ -117,6 +113,7 @@
         router: router,
       data() {
         return {
+          typing_timeout: 5,
           fast_counter: 60,
           slow_counter: 600,
           resultData: {
@@ -151,7 +148,7 @@
           if (user != null) {
             this.submitUserProgress(user.uid, this.resultData);
             this.submitUserHighScore(user.uid, {
-              "highScore": this.resultData.wpm,
+              "wpm": this.resultData.wpm,
               "createdAt": new Date().getTime()
             });
           }
@@ -164,7 +161,17 @@
         },
         submitUserHighScore(userId, highScoreData) {
           var ref = '/leaderboards/' + userId;
-          firebase.database().ref(ref).set(highScoreData);
+          this.getUserHighScore(userId, function(userHighScoreData) {
+            if (userHighScoreData == null || parseInt(userHighScoreData.wpm) <= parseInt(highScoreData.wpm)) {
+              firebase.database().ref(ref).set(highScoreData);
+            }
+          });
+        },
+        getUserHighScore(userId, callback) {
+          var ref = '/leaderboards/' + userId;
+          return firebase.database().ref(ref).once('value').then(function(snapshot) {
+            callback(snapshot.val());
+          });
         }
       },
       components: {
@@ -185,7 +192,6 @@
               vm.userProgress = snapshot.val();
             });
           }
-          console.log("user", user);
         });
       }
     })

@@ -95,7 +95,6 @@ var typingPanel = Vue.component('typingPanel',{
       var para = $("#row1");
       var words = this.inputWords;
       var height = para.outerHeight();
-      console.log("height", height);
       this.ranDomArr(words);
       for(var i = 0; i < words.length; i++){
         para.append(`<span id="child-data` + i +`" class="child-data">`+ words[i].word +`</span>`);
@@ -107,7 +106,6 @@ var typingPanel = Vue.component('typingPanel',{
       if(this.endWordOfLineIndexes[0] === -1){
         this.endWordOfLineIndexes.shift();
       }
-      console.log("this.endWordOfLineIndexes", this.endWordOfLineIndexes);
       $("#child-data0").addClass("bg-gray");
     },
     countDown() {

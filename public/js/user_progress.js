@@ -33,7 +33,6 @@ var userProgress = Vue.component('userProgress', {
   watch: {
     progress(newVal, oldVal) {
       var tmpArray = [];
-      console.log("Hello WOrld", newVal);
       for (var key in newVal){
         tmpArray.push({
           timestamp: key,
