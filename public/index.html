@@ -150,7 +150,9 @@
             this.submitUserProgress(user.uid, this.resultData);
             this.submitUserHighScore(user.uid, {
               "wpm": this.resultData.wpm,
-              "createdAt": moment().unix()
+              "createdAt": moment().unix(),
+              "displayName": user.displayName,
+              "photoURL": user.photoURL
             });
           }
         },
@@ -209,6 +211,7 @@
         //xu ly login fb
         firebase.auth().onAuthStateChanged(function(user) {
           if (user != null) {
+            console.log(user);
             // Fetch user progress data
             var userId = firebase.auth().currentUser.uid;
             firebase.database().ref('/users/' + userId + "/progress/").on('value', function(snapshot) {
