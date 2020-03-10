@@ -150,6 +150,10 @@
           var user = firebase.auth().currentUser;
           if (user != null) {
             this.submitUserProgress(user.uid, this.resultData);
+            this.submitUserHighScore(user.uid, {
+              "highScore": this.resultData.wpm,
+              "createdAt": new Date().getTime()
+            });
           }
         },
         submitUserProgress(userId, resultData) {
@@ -157,6 +161,10 @@
           var timeStamp = new Date().getTime();
           var refId = '/users/' + userId + '/progress/' + timeStamp;
           firebase.database().ref(refId).set(resultData);
+        },
+        submitUserHighScore(userId, highScoreData) {
+          var ref = '/leaderboards/' + userId;
+          firebase.database().ref(ref).set(highScoreData);
         }
       },
       components: {
