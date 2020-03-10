@@ -1,6 +1,3 @@
-// <span class="sdf" v-for="(inputWord, index) in inputWords" 
-//             :class="{ 'highlight-bg-red': inputWord.isCorrect == true, 'colorRed': inputWord.hasError == true, 'bg-gray': index == wordIndex }" >{{ inputWord.word }}</span>
-
 var typingPanel = Vue.component('typingPanel',{
   template: `
       <div class="typing-panel">

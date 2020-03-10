@@ -18,7 +18,7 @@ var rankingPanel = Vue.component('rankingPanel', {
                   <th></th>
                   <th>Username</th>
                   <th>WPM</th>
-                  <th>Active</th>
+                  <th>Online</th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -30,7 +30,7 @@ var rankingPanel = Vue.component('rankingPanel', {
                   <td><img class="avt-user-rank" src="img/anhdep.jpg" alt="" /></td>
                   <td>{{ highScore.userId }}</td>
                   <td>{{ highScore.wpm }}</td>
-                  <td>{{ highScore.createdAt }}</td>
+                  <td>{{ highScore.createdAt | pretty_date }}</td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -53,6 +53,11 @@ var rankingPanel = Vue.component('rankingPanel', {
     return {
       activeCountRank: true,
       activeFriends: false
+    }
+  },
+  filters: {
+    pretty_date: function (value) {
+      return moment(parseInt(value) * 1000).fromNow();
     }
   },
   methods: {
