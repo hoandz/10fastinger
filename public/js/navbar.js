@@ -32,11 +32,7 @@ var navbarComponent = Vue.component('navbar', {
             </a>
           </div>
         </div>
-        <div class="login-user" v-show="!isLogin">
-          <span>Login with: </span>
-          <span class="login-fb-span" @click="onClickLoginFb">Facebook</span>
-          <span class="login-gg-span" @click="onClickLoginGoogle">Google</span>
-        </div>
+        <login-panel size="big" v-show="!isLogin"></login-panel>
       </div>
     </div>
   </nav>
@@ -61,21 +57,6 @@ var navbarComponent = Vue.component('navbar', {
         vm.isLogin = true;
       }, function(error) {
         // An error happened.
-      });
-    },
-    onClickLoginFb(){
-      //end get value input
-      var provider = new firebase.auth.FacebookAuthProvider();
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-      }).catch(function(error) {
-        console.log("error ne: ", error);
-      });
-    },
-    onClickLoginGoogle(){
-      var provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-      }).catch(function(error) {
-        console.log("Loi Google", error);
       });
     }
   },

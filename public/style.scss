@@ -60,7 +60,18 @@ html,body{
   border-radius: 5px;
   position: relative;
 }
-
+.rank-user:nth-child(1) {
+  color: #9934c1 !important;
+}
+.rank-user:nth-child(2) {
+  color: #275813 !important;
+}
+.rank-user:nth-child(3) {
+  color: #34c1b4 !important;
+}
+.rank-user:nth-child(4) {
+  color: #98c134 !important;
+}
 .container-input-check-form{
   width: 600px;
   height: 50px;
@@ -226,7 +237,7 @@ html,body{
   padding: 6px 0px;
 }
 .navbar{
-  background: #3275b1 !important;
+  background: #419e80 !important;
 }
 .competition{
   width: 100%;
@@ -411,6 +422,48 @@ html,body{
 .avt-user-rank{
   width: 40px;
   height: auto;
+}
+.big-login-panel{
+  display: flex;
+  align-items: center;
+  span{
+    margin-right: 10px;
+  }
+  .clickLogFb{
+    padding: 5px 7px;
+    color: white;
+    background: #3374b0;
+    cursor: pointer;
+  }
+  .clickLogGg{
+    padding: 5px 13px;
+    color: red;
+    background: white;
+    cursor: pointer;
+  }
+}
+.small-login-panel{
+  display: flex;
+  flex-direction: column;
+  .clickLogFb{
+    padding: 3px 3px;
+    color: white;
+    background: #3374b0;
+    cursor: pointer;
+    font-size: 9px;
+    text-align: center;
+    border: 1px solid #9bb8bd;
+    margin-bottom: 5px;
+  }
+  .clickLogGg{
+    padding: 3px 13px;
+    color: red;
+    background: white;
+    cursor: pointer;
+    font-size: 9px;
+    text-align: center;
+    border: 1px solid #cdcaca;
+  }
 }
 
 

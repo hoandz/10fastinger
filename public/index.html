@@ -9,6 +9,15 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160230872-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-160230872-1');
+    </script>
   </header>
   <body>
     <div id="app">
@@ -79,7 +88,7 @@
         appId      : '188272749119547',
         cookie     : true,
         xfbml      : true,
-        version    : '1.0'
+        version    : 'v2.8'
       });
         
       FB.AppEvents.logPageView();   
@@ -94,6 +103,7 @@
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
   </script>
+  <script src="js/login.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/result.js"></script>
   <script src="js/ranking.js"></script>
@@ -117,17 +127,10 @@
           typing_timeout: 60,
           fast_counter: 60,
           slow_counter: 600,
-          resultData: {
-            wpm: 100,
-            keystrokes: 23,
-            accuracy: 22.33,
-            wrongWords: 23,
-            corectWords: 22,
-            keystrokesWrong: 32,
-            countKeystrokes: 22
-          },
+          resultData: null,
           isShowResult: false,
-          userProgress: {}
+          userProgress: {},
+          notLoginUserScore: null
         }
       },
       methods: {
@@ -149,12 +152,32 @@
           if (user != null) {
             this.submitUserProgress(user.uid, this.resultData);
             this.submitUserHighScore(user.uid, {
+            "wpm": this.resultData.wpm,
+            "createdAt": moment().unix(),
+            "displayName": user.displayName,
+            "photoURL": user.photoURL
+          });
+          }else{
+            this.refreshHighScore();
+            this.high_scores.push({
               "wpm": this.resultData.wpm,
               "createdAt": moment().unix(),
-              "displayName": user.displayName,
-              "photoURL": user.photoURL
+              "displayName": "Aesfsdfs",
+              "photoURL": "img/avt_default.png",
+              "check": "1"
             });
           }
+          var timeStampFilter = moment().subtract(1,'m').unix();
+          this.high_scores.sort(function(a, b){
+            return b.wpm - a.wpm;
+          }).filter(function(record) {
+            return record.createdAt >= timeStampFilter;
+          });
+        },
+        refreshHighScore() {
+          this.high_scores = this.high_scores.filter(function(item) {
+            return typeof item.check == 'undefined';
+          });
         },
         submitUserProgress(userId, resultData) {
           // Gui data len server theo duong dan ben duoi
@@ -163,6 +186,7 @@
           firebase.database().ref(refId).set(resultData);
         },
         submitUserHighScore(userId, highScoreData) {
+          console.log("highScoreData", highScoreData);
           var ref = '/leaderboards/' + userId;
           this.getUserHighScore(userId, function(userHighScoreData) {
             if (parseInt(highScoreData.wpm) <= 0) {
@@ -189,8 +213,8 @@
               return highScoreRecords[key];
             });
 
-            console.log(highScoreRecordsArr);
-            var timeStampFilter = moment().subtract(7,'d').unix();
+            console.log("highScoreRecordsArr: ", highScoreRecordsArr);
+            var timeStampFilter = moment().subtract(20,'d').unix();
             vm.high_scores = highScoreRecordsArr.sort(function(a, b){
               return b.wpm - a.wpm;
             }).filter(function(record) {
@@ -204,14 +228,27 @@
         'typing-panel': typingPanel,
         'result-panel': resultPanel,
         'ranking-panel': rankingPanel,
-        'user-progress': userProgress
+        'user-progress': userProgress,
+        'login-panel': loginPanel
       },
       mounted() {
         var vm = this;
         //xu ly login fb
         firebase.auth().onAuthStateChanged(function(user) {
           if (user != null) {
-            console.log(user);
+            console.log("login thanh cong: ",user);
+            console.log("this.notLoginUserScore: ", vm.notLoginUserScore);
+            if(vm.resultData != null){
+              console.log("begin submit");
+              var highScoreData = {
+                "wpm": vm.resultData.wpm,
+                "createdAt": moment().unix(),
+                "displayName": user.displayName,
+                "photoURL": user.photoURL
+              };
+              vm.submitUserHighScore(user.uid, highScoreData);
+            }
+            vm.refreshHighScore();
             // Fetch user progress data
             var userId = firebase.auth().currentUser.uid;
             firebase.database().ref('/users/' + userId + "/progress/").on('value', function(snapshot) {
