@@ -3,6 +3,10 @@
     <title>10 Fastinger</title>
     <meta charset="utf-8"></meta>
     <link rel="stylesheet" href="style.css">
+    <meta property="og:url" content="https://codeforfun.club" />
+    <meta property="og:title" content="Kiểm tra tốc độ đánh máy - TypingFaster" />
+    <meta property="og:description" content="Bạn có thể kiểm tra kỹ năng gõ bàn phím của mình đến đâu và cải thiện tốc độ đánh máy của bạn" />
+    <meta property="og:image" content="img/typing-faster.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -110,6 +114,17 @@
   <script src="js/script.js"></script>
   <script src="js/form.js"></script>
   <script src="js/user_progress.js"></script>
+
+  <!-- share fb -->
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+  <!-- end share fb -->
+
   <script>
     var routes = [
       { path: '/tiengviet', component: navbarComponent }
@@ -214,7 +229,7 @@
             });
 
             console.log("highScoreRecordsArr: ", highScoreRecordsArr);
-            var timeStampFilter = moment().subtract(20,'d').unix();
+            var timeStampFilter = moment().subtract(365,'d').unix();
             vm.high_scores = highScoreRecordsArr.sort(function(a, b){
               return b.wpm - a.wpm;
             }).filter(function(record) {

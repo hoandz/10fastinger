@@ -35,11 +35,11 @@ var resultPanel = Vue.component('resultPanel',{
           <span id="wrongWords">{{ resultData.wrongWords }}</span>
         </div>
       </div>
-      <button class="button is-primary btn-icon-fb">
+      <button class="button is-info" style="margin-top: 5px;" v-on:click="shareFb()">
         <span class="icon">
           <i class="fab fa-facebook-f"></i>
         </span>
-        <span>Facebook</span>
+        <span>@facebook</span>
       </button>
     </div>
   `,
@@ -52,6 +52,16 @@ var resultPanel = Vue.component('resultPanel',{
     }
   },
   methods: {
-
+    shareFb() {
+      var wpm = this.resultData.wpm;
+      FB.ui(
+        {
+          method: 'share',
+          href: 'https://codeforfun.club',
+          quote: 'Chúc mừng bạn đã gõ được tốc độ ' + wpm + ' WPM!',
+          hashtag: '#codeforfun'
+        }
+      );
+    }
   }
 })

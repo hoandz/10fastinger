@@ -3,7 +3,17 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+  overflow-y: overlay;
   background-image: url(img/bg.jpg); }
+  html #row1, body #row1 {
+    position: relative;
+    color: #111111;
+    overflow-wrap: break-word; }
+    html #row1 span, body #row1 span {
+      padding: 3px 5px 3px 5px;
+      margin-right: 6px;
+      display: inline-block;
+      font-size: 29px; }
 
 .container-ancestor {
   margin: 0 !important;
@@ -21,7 +31,7 @@ html, body {
   margin-top: 0px;
   padding-left: 5px;
   margin-bottom: 10px;
-  height: 118px;
+  height: 100px;
   overflow: hidden;
   color: #1d4851;
   font-family: Times New Roman, Times, serif;
@@ -40,16 +50,6 @@ html, body {
 .navbar-item img {
   max-height: 8.75rem !important; }
 
-#row1 {
-  position: relative;
-  color: #111111;
-  overflow-wrap: break-word; }
-  #row1 span {
-    padding: 3px 5px 3px 5px;
-    margin-right: 6px;
-    font-size: 33px;
-    display: inline-block; }
-
 .input-check-form {
   width: 100%;
   height: 60px;
@@ -59,17 +59,205 @@ html, body {
   border-radius: 5px;
   position: relative; }
 
-.rank-user:nth-child(1) {
-  color: #9934c1 !important; }
+.rank-user {
+  height: 57px;
+  text-transform: capitalize; }
 
-.rank-user:nth-child(2) {
-  color: #275813 !important; }
+.user-check {
+  position: relative; }
 
-.rank-user:nth-child(3) {
-  color: #34c1b4 !important; }
+.can-giua-text {
+  height: 40px;
+  line-height: 40px; }
 
-.rank-user:nth-child(4) {
-  color: #98c134 !important; }
+.wpm-user {
+  font-weight: bold; }
+
+.padding-rank-24h .stt1 {
+  width: 30px;
+  height: 30px; }
+.padding-rank-24h .rank-user td {
+  padding: 0 !important;
+  font-size: 14px; }
+.padding-rank-24h .rank-user .can-giua-text {
+  height: 57px;
+  line-height: 57px; }
+.padding-rank-24h .rank-user .wpm-user {
+  width: 20px !important; }
+  .padding-rank-24h .rank-user .wpm-user .can-giua-text {
+    text-align: center; }
+.padding-rank-24h .rank-user .ten-user p {
+  padding-left: 10px; }
+.padding-rank-24h .rank-user .anh-user {
+  position: relative; }
+  .padding-rank-24h .rank-user .anh-user img {
+    width: 23px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%); }
+.padding-rank-24h .rank-user:nth-child(1) .stt1 {
+  width: 30px;
+  height: 30px; }
+.padding-rank-24h .rank-user:nth-child(1) .stt2 {
+  width: 27px;
+  height: 27px; }
+.padding-rank-24h .rank-user:nth-child(2) .stt1 {
+  width: 30px;
+  height: 30px; }
+.padding-rank-24h .rank-user:nth-child(2) .stt2 {
+  width: 27px;
+  height: 27px; }
+.padding-rank-24h .rank-user:nth-child(3) .stt1 {
+  width: 30px;
+  height: 30px; }
+.padding-rank-24h .rank-user:nth-child(3) .stt2 {
+  width: 27px;
+  height: 27px; }
+
+.rank-user:nth-child(1) .stt4 {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #ffecb5;
+  position: absolute;
+  text-align: center;
+  line-height: 23px;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #ef6632; }
+.rank-user:nth-child(1) .wpm-user {
+  color: #ef6632; }
+.rank-user:nth-child(1) .stt3 {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffbc06;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+.rank-user:nth-child(1) .stt2 {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fcd872;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+.rank-user:nth-child(1) .stt1 {
+  width: 38px;
+  height: 38px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 50%;
+  background: #fb724b;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+
+.rank-user:nth-child(2) .stt4 {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #eefafd;
+  position: absolute;
+  text-align: center;
+  line-height: 23px;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #06a0a0; }
+.rank-user:nth-child(2) .wpm-user {
+  color: #06a0a0; }
+.rank-user:nth-child(2) .stt3 {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #6bcebb;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+.rank-user:nth-child(2) .stt2 {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #a7e3f6;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+.rank-user:nth-child(2) .stt1 {
+  width: 38px;
+  height: 38px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 50%;
+  background: #4dbba6;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+
+.rank-user:nth-child(3) .stt4 {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: #f9d9eb;
+  position: absolute;
+  text-align: center;
+  line-height: 23px;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #8c72cb; }
+.rank-user:nth-child(3) .wpm-user {
+  color: #8c72cb; }
+.rank-user:nth-child(3) .stt3 {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ad95f2;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+.rank-user:nth-child(3) .stt2 {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ddd5f0;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+.rank-user:nth-child(3) .stt1 {
+  width: 38px;
+  height: 38px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 50%;
+  background: #8c72cb;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
 
 .container-input-check-form {
   width: 600px;
@@ -143,7 +331,8 @@ html, body {
   margin-top: 30px;
   -moz-box-orient: vertical;
   -moz-box-direction: normal;
-       flex-direction: column; }
+       flex-direction: column;
+  position: relative; }
 
 .text-result {
   width: 100%;
@@ -237,7 +426,13 @@ html, body {
   padding: 6px 0px; }
 
 .navbar {
-  background: #419e80 !important; }
+  background: #00a07e !important; }
+
+.navbar-end {
+  padding-right: 20px; }
+
+.navbar-item img {
+  width: 50% !important; }
 
 .competition {
   width: 100%;
@@ -451,8 +646,9 @@ html, body {
   .small-login-panel .clickLogFb {
     padding: 3px 3px;
     color: white;
-    background: #3374b0;
+    background: #0095ff;
     cursor: pointer;
+    border-radius: 10px;
     font-size: 9px;
     text-align: center;
     border: 1px solid #9bb8bd;
@@ -461,9 +657,69 @@ html, body {
     padding: 3px 13px;
     color: red;
     background: white;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 9px;
     text-align: center;
     border: 1px solid #cdcaca; }
+
+.iframe-fb {
+  overflow: hidden;
+  bottom: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); }
+
+.rank-user-th {
+  position: relative;
+  padding: 0.5em 1.9em !important; }
+
+.stt4 {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  position: absolute;
+  text-align: center;
+  line-height: 23px;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: slategrey; }
+
+.wpm-user {
+  color: slategrey; }
+
+.stt3 {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+
+.stt2 {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
+
+.stt1 {
+  width: 38px;
+  height: 38px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%); }
 
 /*# sourceMappingURL=style.css.map */

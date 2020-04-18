@@ -21,8 +21,8 @@ var typingPanel = Vue.component('typingPanel',{
             <div class="timer">
               <div class="container-timer">{{ timeCouter }}</div>
             </div>
-            <div class="reset-time">
-              <img src="img/reset-icon.png" alt="" class="reset" id="reset-btn" v-on:click="resetBtn">
+            <div class="reset-time" v-on:click="resetBtn">
+              <img src="img/reset-icon.png" alt="" class="reset" id="reset-btn">
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ var typingPanel = Vue.component('typingPanel',{
       }
     },
     testScroll() {
-      $("#text-data").animate({ scrollTop: "+=55px"}, 1, 'swing');
+      $("#text-data").animate({ scrollTop: "+=49px"}, 1, 'swing');
     },
     showTextData() {
       $("#row1").html('');
@@ -97,12 +97,14 @@ var typingPanel = Vue.component('typingPanel',{
         para.append(`<span id="child-data` + i +`" class="child-data">`+ words[i].word +`</span>`);
         if(para.outerHeight() > height){
           height = para.outerHeight();
+          console.log(words[i-1]);
           this.endWordOfLineIndexes.push(i-1);
         }
       }
       if(this.endWordOfLineIndexes[0] === -1){
         this.endWordOfLineIndexes.shift();
       }
+      console.log("this.endWordOfLineIndexes", this.endWordOfLineIndexes);
       $("#child-data0").addClass("bg-gray");
     },
     countDown() {
@@ -150,6 +152,7 @@ var typingPanel = Vue.component('typingPanel',{
         $(".child-data").removeClass("bg-gray");
         $("#child-data" + (this.wordIndex + 1)).addClass("bg-gray");
         this.message = '';
+        console.log("this.wordIndex", this.wordIndex);
         if(this.endWordOfLineIndexes[this.countEndWordOfLineIndexes] === this.wordIndex){
           this.testScroll();
           this.countEndWordOfLineIndexes++;
@@ -202,12 +205,17 @@ var typingPanel = Vue.component('typingPanel',{
     }
   },
   mounted(){
+    var vm = this;
+    Vue.nextTick(function () {
+      vm.showTextData();
+    });
+    this.timeCouter = this.timeCounterMax;
+
     this.testScroll();
     this.timeCouter = this.timeCounterMax;
     // this.getValue();
     this.fakeWords();
-    this.ranDomArr(this.inputWords);
-    this.showTextData();
+    // this.ranDomArr(this.inputWords);
   }
 })
 

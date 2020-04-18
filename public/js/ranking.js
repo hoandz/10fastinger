@@ -23,11 +23,11 @@ var rankingPanel = Vue.component('rankingPanel', {
               </thead>
               <tbody>
                 <tr v-for="(highScore, index) in highScores" class="rank-user">
-                  <th class="stt">{{ index + 1 }}</th>
+                  <th class="rank-user-th"><p class="stt1"><p class="stt2"><p class="stt3"><p class="stt4">{{ index + 1 }}</p></p></p></p></th>
                   <td class="anh-user"><img class="avt-user-rank" :src="highScore.photoURL" alt="" /></td>
-                  <td class="ten-user">{{ highScore.displayName }}</td>
-                  <td class="wpm-user">{{ highScore.wpm }}</td>
-                  <td>{{ highScore.createdAt | pretty_date }}</td>
+                  <td class="ten-user"><p class="can-giua-text">{{ highScore.displayName }}</p></td>
+                  <td class="wpm-user"><p class="can-giua-text">{{ highScore.wpm }}</p></td>
+                  <td><p class="can-giua-text">{{ highScore.createdAt | pretty_date }}</p></td>
                   <td><login-panel size="small" v-show="typeof highScore.check != 'undefined' "></login-panel></td>
                   <td></td>
                   <td></td>
