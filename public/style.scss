@@ -475,6 +475,9 @@ html,body{
 .navbar-end{
   padding-right: 20px;
 }
+.navbar-end .image img{
+  width: 100% !important;
+}
 .navbar-item img {
     width: 50% !important;
 }
